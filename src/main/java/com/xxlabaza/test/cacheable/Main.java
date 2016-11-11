@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,13 +54,19 @@ public class Main implements CommandLineRunner {
 
   @Override
   public void run (String... args) throws Exception {
-    System.out.println("\nHeavy object example:");
+    System.out.println();
+
+    log.info("Heavy object example:");
     simpleExample();
 
-    System.out.println("\nFixed delay cache flush example:");
+    System.out.println();
+
+    log.info("Fixed delay cache flush example:");
     mediumExample();
 
-    System.out.println("\nCondition and specific key caching example:");
+    System.out.println();
+
+    log.info("Condition and specific key caching example:");
     hardExample();
 
     System.out.println();
