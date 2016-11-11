@@ -34,7 +34,7 @@ Output looks like (take a look at the time):
 00:48:20.120  INFO : User(firstName=NotArtem, lastName=Labazin, age=25)
 ```
 
-Compare it with the [code](https://github.com/xxlabaza/cacheable/blob/master/src/main/java/com/xxlabaza/test/cacheable.java).
+Compare it with the [code](https://github.com/xxlabaza/cacheable/blob/master/src/main/java/com/xxlabaza/test/cacheable/Main.java).
 
 ## Useful links
 
