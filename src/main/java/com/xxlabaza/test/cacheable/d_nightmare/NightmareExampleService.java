@@ -16,9 +16,14 @@
 
 package com.xxlabaza.test.cacheable.d_nightmare;
 
-import java.util.UUID;
+import static com.xxlabaza.test.cacheable.d_nightmare.NightmareExampleService.CACHE_NAME;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -27,16 +32,42 @@ import org.springframework.stereotype.Service;
  * @since 12.11.2016
  */
 @Service
+@CacheConfig(cacheNames = CACHE_NAME)
 class NightmareExampleService {
 
     static final String CACHE_NAME = "uuid";
 
     static final long TIMEOUT_MILLISECONDS = 1000;
 
-    @Cacheable(CACHE_NAME)
+    private static final Map<Integer, Pojo> REPOSITORY = new ConcurrentHashMap<>();
+
+    @Cacheable
+    public Pojo getWithCache (Integer id) {
+        return getWithoutCache(id);
+    }
+
     @SneakyThrows
-    public String getUUID () {
+    public Pojo getWithoutCache (Integer id) {
         TimeUnit.MILLISECONDS.sleep(TIMEOUT_MILLISECONDS);
-        return UUID.randomUUID().toString();
+        return REPOSITORY.get(id);
+    }
+
+    @CachePut(key = "#pojo.id")
+    public Pojo putWithCache (Pojo pojo) {
+        return putWithoutCache(pojo);
+    }
+
+    @CachePut(key = "#pojo.id")
+    public Pojo putInCacheOnly (Pojo pojo) {
+        return pojo;
+    }
+
+    public Pojo putWithoutCache (Pojo pojo) {
+        REPOSITORY.put(pojo.getId(), pojo);
+        return pojo;
+    }
+
+    public void clear () {
+        REPOSITORY.clear();
     }
 }

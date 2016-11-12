@@ -20,9 +20,11 @@ import static com.xxlabaza.test.cacheable.d_nightmare.NightmareExampleConfigurat
 import static com.xxlabaza.test.cacheable.d_nightmare.NightmareExampleService.CACHE_NAME;
 import static com.xxlabaza.test.cacheable.d_nightmare.NightmareExampleService.TIMEOUT_MILLISECONDS;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import lombok.val;
 import org.junit.Before;
@@ -56,34 +58,61 @@ public class NightmareExampleServiceIT {
     @Before
     public void before () {
         cacheManager.getCache(CACHE_NAME).clear();
+
+        nightmareExampleService.clear();
+        nightmareExampleService.putWithoutCache(new Pojo(1, UUID.randomUUID().toString()));
     }
 
     @Test
     public void cacheWorks () {
         WATCH.start();
-        val uuid1 = nightmareExampleService.getUUID();
+        val pojo1 = nightmareExampleService.getWithCache(1);
         WATCH.stop();
         assertTrue(WATCH.getLastTaskTimeMillis() >= TIMEOUT_MILLISECONDS);
 
         WATCH.start();
-        val uuid2 = nightmareExampleService.getUUID();
+        val pojo2 = nightmareExampleService.getWithCache(1);
         WATCH.stop();
         assertTrue(WATCH.getLastTaskTimeMillis() < TIMEOUT_MILLISECONDS);
 
-        assertEquals(uuid1, uuid2);
+        assertEquals(pojo1, pojo2);
     }
 
     @Test
     public void cachedObjectExpires () throws InterruptedException {
-        val uuid1 = nightmareExampleService.getUUID();
+        val pojo1 = nightmareExampleService.getWithCache(1);
 
         TimeUnit.SECONDS.sleep(EXPIRATION_TIMEOUT + 1);
 
         WATCH.start();
-        val uuid2 = nightmareExampleService.getUUID();
+        val pojo2 = nightmareExampleService.getWithCache(1);
         WATCH.stop();
         assertTrue(WATCH.getLastTaskTimeMillis() >= TIMEOUT_MILLISECONDS);
 
-        assertNotEquals(uuid1, uuid2);
+        assertEquals(pojo1, pojo2);
+    }
+
+    @Test
+    public void putValueWithCacheUpdate () {
+        val pojo = new Pojo(2, UUID.randomUUID().toString());
+        nightmareExampleService.putWithCache(pojo);
+
+        WATCH.start();
+        nightmareExampleService.getWithCache(pojo.getId());
+        WATCH.stop();
+        assertTrue(WATCH.getLastTaskTimeMillis() < TIMEOUT_MILLISECONDS);
+    }
+
+    @Test
+    public void putValueInCacheOnly () {
+        val pojo = new Pojo(2, UUID.randomUUID().toString());
+        nightmareExampleService.putInCacheOnly(pojo);
+
+        WATCH.start();
+        assertNotNull(nightmareExampleService.getWithCache(pojo.getId()));
+        WATCH.stop();
+        assertTrue(WATCH.getLastTaskTimeMillis() < TIMEOUT_MILLISECONDS);
+
+        assertNull(nightmareExampleService.getWithoutCache(pojo.getId()));
     }
 }
