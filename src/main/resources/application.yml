@@ -1,6 +1,0 @@
-spring:
-  jmx.enabled: false
-  main.banner-mode: "off"
-
-logging:
-  pattern.console: "%clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}){magenta} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"

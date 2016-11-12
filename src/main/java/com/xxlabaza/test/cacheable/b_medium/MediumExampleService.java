@@ -13,18 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xxlabaza.test.cacheable.medium;
+package com.xxlabaza.test.cacheable.b_medium;
 
-import lombok.Value;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import lombok.SneakyThrows;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 11.11.2016
  */
-@Value
-public class Record {
+@Service
+class MediumExampleService {
 
-    private int id;
+    static final String CACHE_NAME = "records";
 
-    private String value;
+    static final long TIMEOUT_MILLISECONDS = 1000;
+
+    @Cacheable(CACHE_NAME)
+    @SneakyThrows
+    public Record getOne (int id) {
+        TimeUnit.MILLISECONDS.sleep(TIMEOUT_MILLISECONDS);
+        return new Record(id, UUID.randomUUID().toString());
+    }
 }

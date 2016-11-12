@@ -13,33 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xxlabaza.test.cacheable.simple;
+package com.xxlabaza.test.cacheable.b_medium;
 
-import java.util.concurrent.TimeUnit;
-import lombok.SneakyThrows;
+import static com.xxlabaza.test.cacheable.b_medium.MediumExampleService.CACHE_NAME;
+import static com.xxlabaza.test.cacheable.b_medium.MediumExampleService.TIMEOUT_MILLISECONDS;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 11.11.2016
  */
-@Service
-class SimpleExampleService {
+@EnableCaching
+@EnableScheduling
+@SpringBootApplication
+class MediumExampleConfiguration {
 
-    static final String CACHE_NAME = "heavy";
-
-    static final long TIMEOUT_MILLISECONDS = 1000;
-
-    @Cacheable(CACHE_NAME)
-    @SneakyThrows
-    public HeavyObject getHeavyObject () {
-        TimeUnit.MILLISECONDS.sleep(TIMEOUT_MILLISECONDS);
-        return new HeavyObject("I am not heavy!");
-    }
+    static final long EVICT_DELAY = TIMEOUT_MILLISECONDS * 3;
 
     @CacheEvict(cacheNames = CACHE_NAME, allEntries = true)
-    public void evictCache () {
+    @Scheduled(fixedDelay = EVICT_DELAY)
+    public void reportCacheEvict () {
     }
 }

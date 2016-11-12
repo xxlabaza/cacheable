@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.xxlabaza.test.cacheable.hard;
+package com.xxlabaza.test.cacheable.c_hard;
 
-import static com.xxlabaza.test.cacheable.hard.HardExampleService.CACHE_NAME;
-import static com.xxlabaza.test.cacheable.hard.HardExampleService.TIMEOUT_MILLISECONDS;
+import static com.xxlabaza.test.cacheable.c_hard.HardExampleService.CACHE_NAME;
+import static com.xxlabaza.test.cacheable.c_hard.HardExampleService.TIMEOUT_MILLISECONDS;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -37,7 +37,10 @@ import org.springframework.util.StopWatch;
  * @since 12.11.2016
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = HardExampleConfiguration.class)
+@SpringBootTest(
+        classes = HardExampleConfiguration.class,
+        properties = "spring.cache.type: SIMPLE"
+)
 public class HardExampleServiceTest {
 
     private static final StopWatch WATCH = new StopWatch();

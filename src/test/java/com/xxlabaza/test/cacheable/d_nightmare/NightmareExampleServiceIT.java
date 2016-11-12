@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package com.xxlabaza.test.cacheable.simple;
+package com.xxlabaza.test.cacheable.d_nightmare;
 
-import static com.xxlabaza.test.cacheable.simple.SimpleExampleService.CACHE_NAME;
-import static com.xxlabaza.test.cacheable.simple.SimpleExampleService.TIMEOUT_MILLISECONDS;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
+import static com.xxlabaza.test.cacheable.d_nightmare.NightmareExampleConfiguration.EXPIRATION_TIMEOUT;
+import static com.xxlabaza.test.cacheable.d_nightmare.NightmareExampleService.CACHE_NAME;
+import static com.xxlabaza.test.cacheable.d_nightmare.NightmareExampleService.TIMEOUT_MILLISECONDS;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.concurrent.TimeUnit;
 import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cache.CacheManager;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StopWatch;
 
@@ -37,16 +39,19 @@ import org.springframework.util.StopWatch;
  * @since 12.11.2016
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SimpleExampleConfiguration.class)
-public class SimpleExampleServiceTest {
+@SpringBootTest(
+        classes = NightmareExampleConfiguration.class,
+        properties = "spring.cache.type: REDIS"
+)
+public class NightmareExampleServiceIT {
 
     private static final StopWatch WATCH = new StopWatch();
 
     @Autowired
-    private SimpleExampleService simpleExampleService;
+    private RedisCacheManager cacheManager;
 
     @Autowired
-    private CacheManager cacheManager;
+    private NightmareExampleService nightmareExampleService;
 
     @Before
     public void before () {
@@ -56,32 +61,29 @@ public class SimpleExampleServiceTest {
     @Test
     public void cacheWorks () {
         WATCH.start();
-        val heavy1 = simpleExampleService.getHeavyObject();
+        val uuid1 = nightmareExampleService.getUUID();
         WATCH.stop();
         assertTrue(WATCH.getLastTaskTimeMillis() >= TIMEOUT_MILLISECONDS);
 
         WATCH.start();
-        val heavy2 = simpleExampleService.getHeavyObject();
+        val uuid2 = nightmareExampleService.getUUID();
         WATCH.stop();
         assertTrue(WATCH.getLastTaskTimeMillis() < TIMEOUT_MILLISECONDS);
 
-        assertSame(heavy1, heavy2);
+        assertEquals(uuid1, uuid2);
     }
 
     @Test
-    public void evictCache () {
+    public void cachedObjectExpires () throws InterruptedException {
+        val uuid1 = nightmareExampleService.getUUID();
+
+        TimeUnit.SECONDS.sleep(EXPIRATION_TIMEOUT + 1);
+
         WATCH.start();
-        val heavy1 = simpleExampleService.getHeavyObject();
+        val uuid2 = nightmareExampleService.getUUID();
         WATCH.stop();
         assertTrue(WATCH.getLastTaskTimeMillis() >= TIMEOUT_MILLISECONDS);
 
-        simpleExampleService.evictCache();
-
-        WATCH.start();
-        val heavy2 = simpleExampleService.getHeavyObject();
-        WATCH.stop();
-        assertTrue(WATCH.getLastTaskTimeMillis() >= TIMEOUT_MILLISECONDS);
-
-        assertNotSame(heavy1, heavy2);
+        assertNotEquals(uuid1, uuid2);
     }
 }

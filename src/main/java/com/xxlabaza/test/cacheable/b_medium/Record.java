@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xxlabaza.test.cacheable.simple;
+package com.xxlabaza.test.cacheable.b_medium;
 
 import lombok.Value;
 
@@ -22,7 +22,9 @@ import lombok.Value;
  * @since 11.11.2016
  */
 @Value
-public class HeavyObject {
+public class Record {
+
+    private int id;
 
     private String value;
 }

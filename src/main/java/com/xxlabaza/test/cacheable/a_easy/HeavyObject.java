@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.xxlabaza.test.cacheable.a_easy;
 
-package com.xxlabaza.test.cacheable.simple;
-
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
+import lombok.Value;
 
 /**
  * @author Artem Labazin <xxlabaza@gmail.com>
- * @since 12.11.2016
+ * @since 11.11.2016
  */
-@EnableCaching
-@SpringBootApplication
-class SimpleExampleConfiguration {
+@Value
+public class HeavyObject {
 
+    private String value;
 }

@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xxlabaza.test.cacheable.medium;
+
+package com.xxlabaza.test.cacheable.d_nightmare;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -23,19 +24,19 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author Artem Labazin <xxlabaza@gmail.com>
- * @since 11.11.2016
+ * @since 12.11.2016
  */
 @Service
-class MediumExampleService {
+class NightmareExampleService {
 
-    static final String CACHE_NAME = "records";
+    static final String CACHE_NAME = "uuid";
 
     static final long TIMEOUT_MILLISECONDS = 1000;
 
     @Cacheable(CACHE_NAME)
     @SneakyThrows
-    public Record getOne (int id) {
+    public String getUUID () {
         TimeUnit.MILLISECONDS.sleep(TIMEOUT_MILLISECONDS);
-        return new Record(id, UUID.randomUUID().toString());
+        return UUID.randomUUID().toString();
     }
 }

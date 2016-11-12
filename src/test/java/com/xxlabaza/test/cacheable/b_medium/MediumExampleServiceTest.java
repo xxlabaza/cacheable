@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package com.xxlabaza.test.cacheable.medium;
+package com.xxlabaza.test.cacheable.b_medium;
 
-import static com.xxlabaza.test.cacheable.medium.MediumExampleConfiguration.EVICT_DELAY;
-import static com.xxlabaza.test.cacheable.medium.MediumExampleService.TIMEOUT_MILLISECONDS;
+import com.xxlabaza.test.cacheable.b_medium.MediumExampleConfiguration;
+import com.xxlabaza.test.cacheable.b_medium.MediumExampleService;
+
+import static com.xxlabaza.test.cacheable.b_medium.MediumExampleConfiguration.EVICT_DELAY;
+import static com.xxlabaza.test.cacheable.b_medium.MediumExampleService.TIMEOUT_MILLISECONDS;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -36,7 +39,10 @@ import org.springframework.util.StopWatch;
  * @since 12.11.2016
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = MediumExampleConfiguration.class)
+@SpringBootTest(
+        classes = MediumExampleConfiguration.class,
+        properties = "spring.cache.type: SIMPLE"
+)
 public class MediumExampleServiceTest {
 
     private static final StopWatch WATCH = new StopWatch();

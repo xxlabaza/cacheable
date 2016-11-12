@@ -1,0 +1,40 @@
+/*
+ * Copyright 2016 Artem Labazin <xxlabaza@gmail.com>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.xxlabaza.test.cacheable.d_nightmare;
+
+import static com.xxlabaza.test.cacheable.d_nightmare.NightmareExampleService.TIMEOUT_MILLISECONDS;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizer;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.redis.cache.RedisCacheManager;
+
+/**
+ * @author Artem Labazin <xxlabaza@gmail.com>
+ * @since 12.11.2016
+ */
+@EnableCaching
+@SpringBootApplication
+class NightmareExampleConfiguration implements CacheManagerCustomizer<RedisCacheManager> {
+
+    static final long EXPIRATION_TIMEOUT = 3 * TIMEOUT_MILLISECONDS / 1000;
+
+    @Override
+    public void customize (RedisCacheManager cacheManager) {
+        cacheManager.setDefaultExpiration(EXPIRATION_TIMEOUT);
+    }
+}

@@ -1,0 +1,9 @@
+
+spring:
+  main.banner-mode: "off"
+  jmx.enabled: false
+  redis:
+    host: localhost
+    port: 6378
+    
+logging.level.root: WARN

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xxlabaza.test.cacheable.hard;
+package com.xxlabaza.test.cacheable.a_easy;
 
 import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
@@ -26,20 +26,20 @@ import org.springframework.stereotype.Service;
  * @since 11.11.2016
  */
 @Service
-class HardExampleService {
+class SimpleExampleService {
 
-    static final String CACHE_NAME = "users";
+    static final String CACHE_NAME = "heavy";
 
     static final long TIMEOUT_MILLISECONDS = 1000;
 
-    @Cacheable(cacheNames = CACHE_NAME, key = "#firstName + #lastName", condition = "#age > 0 && #age < 50")
+    @Cacheable(CACHE_NAME)
     @SneakyThrows
-    public User getUser (String firstName, String lastName, int age) {
+    public HeavyObject getHeavyObject () {
         TimeUnit.MILLISECONDS.sleep(TIMEOUT_MILLISECONDS);
-        return new User(firstName, lastName, age);
+        return new HeavyObject("I am not heavy!");
     }
 
-    @CacheEvict(cacheNames = CACHE_NAME, key = "#user.firstName + #user.lastName")
-    public void flushCacheFor (User user) {
+    @CacheEvict(cacheNames = CACHE_NAME, allEntries = true)
+    public void evictCache () {
     }
 }

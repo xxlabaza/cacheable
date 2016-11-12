@@ -13,20 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xxlabaza.test.cacheable.hard;
 
-import lombok.Value;
+package com.xxlabaza.test.cacheable.c_hard;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * @author Artem Labazin <xxlabaza@gmail.com>
- * @since 11.11.2016
+ * @since 12.11.2016
  */
-@Value
-public class User {
+@EnableCaching
+@SpringBootApplication
+class HardExampleConfiguration {
 
-    private String firstName;
-
-    private String lastName;
-
-    private int age;
 }
