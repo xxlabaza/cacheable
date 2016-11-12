@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,6 @@ package com.xxlabaza.test.cacheable.simple;
 
 import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -26,20 +25,21 @@ import org.springframework.stereotype.Service;
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 11.11.2016
  */
-@Slf4j
 @Service
-public class SimpleExampleService {
+class SimpleExampleService {
 
-  private static final String CACHE_NAME = "heavy";
+    static final String CACHE_NAME = "heavy";
 
-  @Cacheable(CACHE_NAME)
-  @SneakyThrows
-  public HeavyObject getHeavyObject () {
-    TimeUnit.SECONDS.sleep(3);
-    return new HeavyObject("Hello world");
-  }
+    static final long TIMEOUT_MILLISECONDS = 1000;
 
-  @CacheEvict(allEntries = true, cacheNames = CACHE_NAME)
-  public void evictCache () {
-  }
+    @Cacheable(CACHE_NAME)
+    @SneakyThrows
+    public HeavyObject getHeavyObject () {
+        TimeUnit.MILLISECONDS.sleep(TIMEOUT_MILLISECONDS);
+        return new HeavyObject("I am not heavy!");
+    }
+
+    @CacheEvict(cacheNames = CACHE_NAME, allEntries = true)
+    public void evictCache () {
+    }
 }

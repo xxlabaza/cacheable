@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,9 @@ import lombok.Value;
 @Value
 public class User {
 
-  private String firstName;
-  private String lastName;
-  private int age;
+    private String firstName;
+
+    private String lastName;
+
+    private int age;
 }

@@ -3,81 +3,86 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
     
-    <groupId>com.xxlabaza.test</groupId>
-    <artifactId>cacheable</artifactId>
-    <version>1.0.0</version>
-    <packaging>jar</packaging>
+  <groupId>com.xxlabaza.test</groupId>
+  <artifactId>cacheable</artifactId>
+  <version>1.1.0</version>
+  <packaging>jar</packaging>
     
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.1.RELEASE</version>
-    </parent>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.4.2.RELEASE</version>
+  </parent>
     
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <start-class>com.xxlabaza.test.cacheable.Main</start-class>
-        <netbeans.hint.license>My_Apache2</netbeans.hint.license>
-    </properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+    <start-class>com.xxlabaza.test.cacheable.Main</start-class>
+    <netbeans.hint.license>My_Apache2</netbeans.hint.license>
+  </properties>
     
-    <name>Spring Cache Examples</name>
-    <description>
-        Spring Boot based examples for working with caches.
-    </description>
+  <name>Spring Cache Examples</name>
+  <description>
+    Spring Boot based examples for working with caches.
+  </description>
+  <url>https://github.com/xxlabaza/cacheable</url>
+  <inceptionYear>2016</inceptionYear>
+    
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+    
+  <scm>
     <url>https://github.com/xxlabaza/cacheable</url>
-    <inceptionYear>2016</inceptionYear>
+    <connection>scm:git:https://github.com/xxlabaza/cacheable.git</connection>
+    <developerConnection>scm:git:https://github.com/xxlabaza/cacheable.git</developerConnection>
+  </scm>
     
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    
-    <scm>
-        <url>https://github.com/xxlabaza/cacheable</url>
-        <connection>scm:git:https://github.com/xxlabaza/cacheable.git</connection>
-        <developerConnection>scm:git:https://github.com/xxlabaza/cacheable.git</developerConnection>
-    </scm>
-    
-    <issueManagement>
-        <system>Github</system>
-        <url>https://github.com/xxlabaza/cacheable/issues</url>
-    </issueManagement>
+  <issueManagement>
+    <system>Github</system>
+    <url>https://github.com/xxlabaza/cacheable/issues</url>
+  </issueManagement>
 
-    <developers>
-        <developer>
-            <name>Artem Labazin</name>
-            <email>xxlabaza@gmail.com</email>
-        </developer>
-        <developer>
-            <name>Tomasz Juchniewicz</name>
-            <email>tjuchniewicz@gmail.com</email>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <name>Artem Labazin</name>
+      <email>xxlabaza@gmail.com</email>
+    </developer>
+    <developer>
+      <name>Tomasz Juchniewicz</name>
+      <email>tjuchniewicz@gmail.com</email>
+    </developer>
+  </developers>
     
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
         
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-    </dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+        
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+    </dependency>
+  </dependencies>
     
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>

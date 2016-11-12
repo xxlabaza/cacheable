@@ -13,29 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xxlabaza.test.cacheable.medium;
 
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import lombok.SneakyThrows;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
+package com.xxlabaza.test.cacheable.hard;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * @author Artem Labazin <xxlabaza@gmail.com>
- * @since 11.11.2016
+ * @since 12.11.2016
  */
-@Service
-class MediumExampleService {
+@EnableCaching
+@SpringBootApplication
+class HardExampleConfiguration {
 
-    static final String CACHE_NAME = "records";
-
-    static final long TIMEOUT_MILLISECONDS = 1000;
-
-    @Cacheable(CACHE_NAME)
-    @SneakyThrows
-    public Record getOne (int id) {
-        TimeUnit.MILLISECONDS.sleep(TIMEOUT_MILLISECONDS);
-        return new Record(id, UUID.randomUUID().toString());
-    }
 }

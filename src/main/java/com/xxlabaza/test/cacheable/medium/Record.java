@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +24,7 @@ import lombok.Value;
 @Value
 public class Record {
 
-  private int id;
-  private String value;
+    private int id;
+
+    private String value;
 }

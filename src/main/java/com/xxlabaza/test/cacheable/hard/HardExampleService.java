@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,18 +26,20 @@ import org.springframework.stereotype.Service;
  * @since 11.11.2016
  */
 @Service
-public class HardExampleService {
+class HardExampleService {
 
-  private static final String CACHE_NAME = "users";
+    static final String CACHE_NAME = "users";
 
-  @Cacheable(cacheNames = CACHE_NAME, key = "#firstName", condition = "#age < 50")
-  @SneakyThrows
-  public User getUser (String firstName, String lastName, int age) {
-    TimeUnit.SECONDS.sleep(3);
-    return new User(firstName, lastName, age);
-  }
+    static final long TIMEOUT_MILLISECONDS = 1000;
 
-  @CacheEvict(cacheNames = CACHE_NAME)
-  public void flushCacheFor (String firstName) {
-  }
+    @Cacheable(cacheNames = CACHE_NAME, key = "#firstName + #lastName", condition = "#age > 0 && #age < 50")
+    @SneakyThrows
+    public User getUser (String firstName, String lastName, int age) {
+        TimeUnit.MILLISECONDS.sleep(TIMEOUT_MILLISECONDS);
+        return new User(firstName, lastName, age);
+    }
+
+    @CacheEvict(cacheNames = CACHE_NAME, key = "#user.firstName + #user.lastName")
+    public void flushCacheFor (User user) {
+    }
 }

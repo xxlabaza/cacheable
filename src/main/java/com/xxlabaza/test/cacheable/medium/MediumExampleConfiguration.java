@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +15,12 @@
  */
 package com.xxlabaza.test.cacheable.medium;
 
-import lombok.extern.slf4j.Slf4j;
+import static com.xxlabaza.test.cacheable.medium.MediumExampleService.CACHE_NAME;
+import static com.xxlabaza.test.cacheable.medium.MediumExampleService.TIMEOUT_MILLISECONDS;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -25,15 +28,15 @@ import org.springframework.scheduling.annotation.Scheduled;
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 11.11.2016
  */
-@Slf4j
-@Configuration
+@EnableCaching
 @EnableScheduling
+@SpringBootApplication
 class MediumExampleConfiguration {
 
-  final static String CACHE_NAME = "records";
+    static final long EVICT_DELAY = TIMEOUT_MILLISECONDS * 3;
 
-  @CacheEvict(allEntries = true, cacheNames = CACHE_NAME)
-  @Scheduled(fixedDelay = 2500)
-  public void reportCacheEvict() {
-  }
+    @CacheEvict(cacheNames = CACHE_NAME, allEntries = true)
+    @Scheduled(fixedDelay = EVICT_DELAY)
+    public void reportCacheEvict () {
+    }
 }
